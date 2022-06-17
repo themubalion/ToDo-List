@@ -18,11 +18,14 @@ function updatelist() {
         }
         else {
             newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
-            localArray = JSON.parse(newLocalArray);  // Parsing the details available on locala storage
+            localArray = JSON.parse(newLocalArray);  // Parsing the details available on local storage
             localArray.push([task, fullTaskYear])
+            localStorage.setItem('itemsJson', JSON.stringify(localArray));  // pushing arrow to the localStorage
         }
     }
 
+    newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
+    localArray = JSON.parse(newLocalArray);  // Parsing the details available on locala storage
     tbody = document.getElementById('tbody')
 
     let str = ""; // Creating an empty string to save the table code
@@ -35,7 +38,7 @@ function updatelist() {
     <td class="w-1/5">
         <div class="flex flex-col  items-center justify-center">
             <div class="flex"><button
-                class="bg-red-600 text-white px-2 rounded-sm mr-1">Delete</button><button
+                class="bg-red-600 text-white px-2 rounded-sm mr-1" onclick="deleted(${index})">Delete</button><button
                     class="bg-green-600 text-white px-2 rounded-sm">Complete</button></div>
             <p class="text-xs text-gray-700"><span class="font-bold">Date</span>:${element[1]}</p>
         </div>
@@ -43,6 +46,19 @@ function updatelist() {
 </tr>`
     });
     tbody.innerHTML = str;  // Finally adding the code to the html
+    document.getElementById('task').value = "";
+}
+
+function deleted(deletingIndex) {
+    newnewLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
+    localarray = JSON.parse(newnewLocalArray)
+    //Deletes the item from the array
+    localarray.splice(deletingIndex,1)
+    console.log(typeof(deletingIndex))
+    console.log(localarray)
+    localStorage.setItem('itemsJson',JSON.stringify(localarray))
+    updatelist()
 }
 
 document.getElementById('Add-button').addEventListener('click',updatelist);
+updatelist();
