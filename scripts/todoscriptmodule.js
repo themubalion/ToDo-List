@@ -39,7 +39,7 @@ function updatelist() {
         <div class="flex flex-col  items-center justify-center">
             <div class="flex"><button
                 class="bg-red-600 text-white px-2 rounded-sm mr-1" onclick="deleted(${index})">Delete</button><button
-                    class="bg-green-600 text-white px-2 rounded-sm">Complete</button></div>
+                    class="bg-green-600 text-white px-2 rounded-sm" onclick="done()">Complete</button></div>
             <p class="text-xs text-gray-700"><span class="font-bold">Date</span>:${element[1]}</p>
         </div>
     </td>
@@ -58,6 +58,11 @@ function deleted(deletingIndex) {
     console.log(localarray)
     localStorage.setItem('itemsJson',JSON.stringify(localarray))
     updatelist()
+}
+
+function done() {
+    window.alert('Seriously? It took me arond five hours to just make this list work there were a lot of bugs happening and you want me to add another function, just hire a freelancer.')
+    console.log('its secret i am working on it')
 }
 
 document.getElementById('Add-button').addEventListener('click',updatelist);
