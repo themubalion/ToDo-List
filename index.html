@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/dist/output.css" rel="stylesheet">
+</head>
+
+<body>
+    <main class="mx-auto my-24 w-5/6 bg-todo-bg py-6 flex flex-col ">
+        <section id="add-task" class="">
+            <div class="flex flex-col items-center content-evenly">
+                <div class="text-text-color font-bold text-center text-2xl my-2">
+                    My ToDo's
+                </div>
+                <div class="w-3/4 my-2 relative flex items-center "><input type="text" placeholder="Add New..."
+                        class="w-full h-10 rounded-sm shadow-md text-md px-4" id="task"><button
+                        class="bg-text-color absolute right-4 px-3 rounded-sm shadow-sm text-white py-0.5" id="Add-button">Add</button>
+                </div>
+            </div>
+        </section>
+        <hr class="h-0.5 bg-gray-400 w-5/6 my-5 mx-auto">
+        <section id="made-tasks" class="w-5/6 mx-auto">
+            <div>
+                <table class="w-full text-center">
+                    <thead>
+                        <tr>
+                            <th class="bg-gray-300 border-r-black ">SrNo.</th>
+                            <th class="bg-gray-300 border-r-black ">Task</th>
+                            <th class="bg-gray-300">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody">
+                        
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <script src="/scripts/todoscriptmodule.js"></script>
+</body>
+
+</html>
