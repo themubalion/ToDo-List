@@ -122,7 +122,7 @@ function doneupdate(){
     });
     document.getElementById('doneBody').innerHTML = doneStr;
 }
-
+setInterval(updatelist(),1000)
 document.getElementById('Add-button').addEventListener('click', updatelist);
 updatelist();
 doneupdate();
