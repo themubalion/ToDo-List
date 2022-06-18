@@ -79,13 +79,21 @@ function deleted(deletingIndex) {
 }
 
 function done(doneindex) {
+    let setTimezone = new Date();
+    
+    let day = setTimezone.getDay();
+    let month = setTimezone.getMonth();
+    let year = setTimezone.getFullYear();
+    let hours = setTimezone.getHours();
+    let minutes = setTimezone.getMinutes();
+    let doneTime = `${day}/${month}/${year} ${hours}:${minutes}` // Defining the date and time of the completion of the task
+
     let doneArray = []; // creating an empty array to push the completed tasks to local storage in another key.
     if (localStorage.getItem('doneJson') == null) {
         newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
         newdonearray = JSON.parse(newLocalArray) // Parsing the local storage details
-        doneArray.push(newdonearray[doneindex]) // Pushing the completed task to the new Array
+        doneArray.push([newdonearray[doneindex][0],doneTime]) // Pushing the completed task to the new Array
         localStorage.setItem('doneJson', JSON.stringify(doneArray))
-        console.log('condition0')
     }
 
     else {
@@ -95,7 +103,7 @@ function done(doneindex) {
         mydonearray = localStorage.getItem('doneJson');
         doneArray = JSON.parse(mydonearray);
         // console.log(typeof(doneArray)) Also verifying the type of the object 
-        doneArray.push(newdonearray[doneindex])
+        doneArray.push([newdonearray[doneindex][0],doneTime]) // Pushing the completed task to the new Array
         localStorage.setItem('doneJson', JSON.stringify(doneArray))
     }
     newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
@@ -105,7 +113,6 @@ function done(doneindex) {
     newdonearray.splice(doneindex, 1)
 
     localStorage.setItem('itemsJson', JSON.stringify(newdonearray))
-    console.log('its secret i am working on it')
     pendingUpdate()
     doneupdate()
 }
@@ -129,11 +136,13 @@ function doneupdate() {
             </td>
         </tr>`
         });
-        document.getElementById('doneBody').innerHTML = doneStr;
+        document.getElementById('doneBody').innerHTML = doneStr; // Sets the inner HTML to the completed task table
     }
 }
-setInterval(updatelist(), 1000)
-document.getElementById('Add-button').addEventListener('click', updatelist);
-document.getElementById('Add-button').addEventListener('click', pendingUpdate);
-doneupdate();
-pendingUpdate();
+document.getElementById('Add-button').addEventListener('click', updatelist); // Event listener to add the task to the local storage
+document.getElementById('Add-button').addEventListener('click', pendingUpdate); // Event listener to call the update function to update the pending list 
+
+doneupdate(); // Makes sure that the update section table loads when the page loads
+if (localStorage.getItem('doneJson')!=null){
+    pendingUpdate(); // Loads the pending tasks when the page loads, also gives a little error in the console to fix this I am adding an if condition to this so that it doesn't give the null error.
+}
