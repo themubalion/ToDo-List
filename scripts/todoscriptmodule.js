@@ -1,3 +1,14 @@
+{/* <tr>
+<td class="w-1/5">${index + 1}</td>
+<td>${element[0]}</td>
+<td class="w-1/5">
+    <div class="flex flex-col  items-center justify-center">
+        <div class="flex"><p class="text-green-600">Marked done</p></div>
+        <p class="text-xs text-gray-700"><span class="font-bold">Date</span>:${element[1]}</p>
+    </div>
+</td>
+</tr> */}
+
 function updatelist() {
     const taskdate = new Date();
     const taskday = taskdate.getDay();
@@ -39,7 +50,7 @@ function updatelist() {
         <div class="flex flex-col  items-center justify-center">
             <div class="flex"><button
                 class="bg-red-600 text-white px-2 rounded-sm mr-1" onclick="deleted(${index})">Delete</button><button
-                    class="bg-green-600 text-white px-2 rounded-sm" onclick="done(${index})">Complete</button></div>
+                    class="bg-green-600 text-white px-2 rounded-sm" id="complete" onclick="done(${index})">Complete</button></div>
             <p class="text-xs text-gray-700"><span class="font-bold">Date</span>:${element[1]}</p>
         </div>
     </td>
@@ -54,7 +65,7 @@ function deleted(deletingIndex) {
     localarray = JSON.parse(newnewLocalArray)
     //Deletes the item from the array
     localarray.splice(deletingIndex, 1)
-    console.log(typeof (deletingIndex))
+    // console.log(typeof (deletingIndex))  Verifying the type of the array more like object
     console.log(localarray)
     localStorage.setItem('itemsJson', JSON.stringify(localarray))
     updatelist()
@@ -76,7 +87,7 @@ function done(doneindex) {
 
         mydonearray = localStorage.getItem('doneJson');
         doneArray = JSON.parse(mydonearray);
-        console.log(typeof(doneArray))
+        // console.log(typeof(doneArray)) Also verifying the type of the object 
         doneArray.push(newdonearray[doneindex])
         localStorage.setItem('doneJson',JSON.stringify(doneArray))
     }
@@ -87,9 +98,31 @@ function done(doneindex) {
     newdonearray.splice(doneindex, 1)
 
     localStorage.setItem('itemsJson', JSON.stringify(newdonearray))
-    updatelist()
     console.log('its secret i am working on it')
+    updatelist()
+}
+
+function doneupdate(){
+    let gotArray = [];
+    let getStorage = localStorage.getItem('doneJson'); // Getting the done tasks from the local array
+    gotArray = JSON.parse(getStorage);  // Parsing it and assigning it to another array
+
+    let doneStr = "";
+    gotArray.forEach((element,index) => {
+        doneStr += ` <tr>
+        <td class="w-1/5">${index + 1}</td>
+        <td>${element[0]}</td>
+        <td class="w-1/5">
+            <div class="flex flex-col  items-center justify-center">
+                <div class="flex"><p class="text-green-600">Marked done</p></div>
+                <p class="text-xs text-gray-700"><span class="font-bold">Date</span>:${element[1]}</p>
+            </div>
+        </td>
+    </tr>`
+    });
+    document.getElementById('doneBody').innerHTML = doneStr;
 }
 
 document.getElementById('Add-button').addEventListener('click', updatelist);
 updatelist();
+doneupdate();
