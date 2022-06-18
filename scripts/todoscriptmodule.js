@@ -34,8 +34,16 @@ function updatelist() {
             localStorage.setItem('itemsJson', JSON.stringify(localArray));  // pushing arrow to the localStorage
         }
     }
+    if (localStorage.getItem('itemsJson') == null) {  // This condition will the array on the local storage when there isn't anything on the local storage
 
-    newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
+        localArray.push([task, fullTaskYear]);  // adding the values to the array we made
+        // localStorage.setItem('itemsJson', JSON.stringify(localArray));  // pushing arrow to the localStorage
+    }
+}
+
+function pendingUpdate() {
+    let localArray = []
+    let newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
     localArray = JSON.parse(newLocalArray);  // Parsing the details available on locala storage
     tbody = document.getElementById('tbody')
 
@@ -66,21 +74,20 @@ function deleted(deletingIndex) {
     //Deletes the item from the array
     localarray.splice(deletingIndex, 1)
     // console.log(typeof (deletingIndex))  Verifying the type of the array more like object
-    console.log(localarray)
     localStorage.setItem('itemsJson', JSON.stringify(localarray))
-    updatelist()
+    pendingUpdate()
 }
 
 function done(doneindex) {
     let doneArray = []; // creating an empty array to push the completed tasks to local storage in another key.
-    if(localStorage.getItem('doneJson')==null){
+    if (localStorage.getItem('doneJson') == null) {
         newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
         newdonearray = JSON.parse(newLocalArray) // Parsing the local storage details
         doneArray.push(newdonearray[doneindex]) // Pushing the completed task to the new Array
-        localStorage.setItem('doneJson',JSON.stringify(doneArray))
+        localStorage.setItem('doneJson', JSON.stringify(doneArray))
         console.log('condition0')
     }
-    
+
     else {
         newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
         newdonearray = JSON.parse(newLocalArray) // Parsing the local storage details
@@ -89,40 +96,44 @@ function done(doneindex) {
         doneArray = JSON.parse(mydonearray);
         // console.log(typeof(doneArray)) Also verifying the type of the object 
         doneArray.push(newdonearray[doneindex])
-        localStorage.setItem('doneJson',JSON.stringify(doneArray))
+        localStorage.setItem('doneJson', JSON.stringify(doneArray))
     }
     newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
     newdonearray = JSON.parse(newLocalArray) // Parsing the local storage details
-    
+
     //Deletes the item from the array
     newdonearray.splice(doneindex, 1)
 
     localStorage.setItem('itemsJson', JSON.stringify(newdonearray))
     console.log('its secret i am working on it')
-    updatelist()
+    pendingUpdate()
+    doneupdate()
 }
 
-function doneupdate(){
+function doneupdate() {
     let gotArray = [];
     let getStorage = localStorage.getItem('doneJson'); // Getting the done tasks from the local array
     gotArray = JSON.parse(getStorage);  // Parsing it and assigning it to another array
 
     let doneStr = "";
-    gotArray.forEach((element,index) => {
-        doneStr += ` <tr>
-        <td class="w-1/5">${index + 1}</td>
-        <td>${element[0]}</td>
-        <td class="w-1/5">
-            <div class="flex flex-col  items-center justify-center">
-                <div class="flex"><p class="text-green-600">Marked done</p></div>
-                <p class="text-xs text-gray-700"><span class="font-bold">Date</span>:${element[1]}</p>
-            </div>
-        </td>
-    </tr>`
-    });
-    document.getElementById('doneBody').innerHTML = doneStr;
+    if (localStorage.getItem('doneJson')!=null){
+        gotArray.forEach((element, index) => {
+            doneStr += ` <tr>
+            <td class="w-1/5">${index + 1}</td>
+            <td>${element[0]}</td>
+            <td class="w-1/5">
+                <div class="flex flex-col  items-center justify-center">
+                    <div class="flex"><p class="text-green-600">Marked done</p></div>
+                    <p class="text-xs text-gray-700"><span class="font-bold">Date</span>:${element[1]}</p>
+                </div>
+            </td>
+        </tr>`
+        });
+        document.getElementById('doneBody').innerHTML = doneStr;
+    }
 }
-setInterval(updatelist(),1000)
+setInterval(updatelist(), 1000)
 document.getElementById('Add-button').addEventListener('click', updatelist);
-updatelist();
+document.getElementById('Add-button').addEventListener('click', pendingUpdate);
 doneupdate();
+pendingUpdate();
