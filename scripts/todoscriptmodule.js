@@ -39,7 +39,7 @@ function updatelist() {
         <div class="flex flex-col  items-center justify-center">
             <div class="flex"><button
                 class="bg-red-600 text-white px-2 rounded-sm mr-1" onclick="deleted(${index})">Delete</button><button
-                    class="bg-green-600 text-white px-2 rounded-sm" onclick="done()">Complete</button></div>
+                    class="bg-green-600 text-white px-2 rounded-sm" onclick="done(${index})">Complete</button></div>
             <p class="text-xs text-gray-700"><span class="font-bold">Date</span>:${element[1]}</p>
         </div>
     </td>
@@ -53,17 +53,43 @@ function deleted(deletingIndex) {
     newnewLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
     localarray = JSON.parse(newnewLocalArray)
     //Deletes the item from the array
-    localarray.splice(deletingIndex,1)
-    console.log(typeof(deletingIndex))
+    localarray.splice(deletingIndex, 1)
+    console.log(typeof (deletingIndex))
     console.log(localarray)
-    localStorage.setItem('itemsJson',JSON.stringify(localarray))
+    localStorage.setItem('itemsJson', JSON.stringify(localarray))
     updatelist()
 }
 
-function done() {
-    window.alert('Seriously? It took me arond five hours to just make this list work there were a lot of bugs happening and you want me to add another function, just hire a freelancer.')
+function done(doneindex) {
+    let doneArray = []; // creating an empty array to push the completed tasks to local storage in another key.
+    if(localStorage.getItem('doneJson')==null){
+        newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
+        newdonearray = JSON.parse(newLocalArray) // Parsing the local storage details
+        doneArray.push(newdonearray[doneindex]) // Pushing the completed task to the new Array
+        localStorage.setItem('doneJson',JSON.stringify(doneArray))
+        console.log('condition0')
+    }
+    
+    else {
+        newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
+        newdonearray = JSON.parse(newLocalArray) // Parsing the local storage details
+
+        mydonearray = localStorage.getItem('doneJson');
+        doneArray = JSON.parse(mydonearray);
+        console.log(typeof(doneArray))
+        doneArray.push(newdonearray[doneindex])
+        localStorage.setItem('doneJson',JSON.stringify(doneArray))
+    }
+    newLocalArray = localStorage.getItem('itemsJson'); // Extracting info from the local storage
+    newdonearray = JSON.parse(newLocalArray) // Parsing the local storage details
+    
+    //Deletes the item from the array
+    newdonearray.splice(doneindex, 1)
+
+    localStorage.setItem('itemsJson', JSON.stringify(newdonearray))
+    updatelist()
     console.log('its secret i am working on it')
 }
 
-document.getElementById('Add-button').addEventListener('click',updatelist);
+document.getElementById('Add-button').addEventListener('click', updatelist);
 updatelist();
