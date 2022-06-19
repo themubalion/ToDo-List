@@ -16,10 +16,8 @@ function updatelist() {
     const taskday = taskdate.getDate();
     const taskmonth = taskdate.getMonth() + 1; 
     const taskyear = taskdate.getFullYear();
-    console.log(taskday)
 
     const fullTaskYear = `${taskday}/${taskmonth}/${taskyear}`; // It will save the date of the task without asking for the input
-    console.log(fullTaskYear)
     let task = document.getElementById('task').value; // This will get the value of the input task box
     let localArray = []; // The values will be saved in this Array
 
