@@ -1,4 +1,6 @@
-{/* <tr>
+{/*
+Commenting this code to enter this code below I wouldn't go again and again to my html file for code changes so I designed the code in the html file and saved a prototype here, below I will add some variables where needed in the code
+<tr>
 <td class="w-1/5">${index + 1}</td>
 <td>${element[0]}</td>
 <td class="w-1/5">
@@ -11,12 +13,13 @@
 
 function updatelist() {
     const taskdate = new Date();
-    const taskday = taskdate.getDay();
-    const taskmonth = taskdate.getMonth();
+    const taskday = taskdate.getDate();
+    const taskmonth = taskdate.getMonth() + 1; 
     const taskyear = taskdate.getFullYear();
+    console.log(taskday)
 
     const fullTaskYear = `${taskday}/${taskmonth}/${taskyear}`; // It will save the date of the task without asking for the input
-
+    console.log(fullTaskYear)
     let task = document.getElementById('task').value; // This will get the value of the input task box
     let localArray = []; // The values will be saved in this Array
 
